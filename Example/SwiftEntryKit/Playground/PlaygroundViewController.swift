@@ -54,8 +54,12 @@ final class PlaygroundViewController: UIViewController {
         var attributes = EKAttributes()
         attributes.positionConstraints = .fullWidth
         attributes.hapticFeedbackType = .success
+      #warning("first change")
+      attributes.precedence = .enqueue(priority: .normal)
         attributes.positionConstraints.safeArea = .empty(fillSafeArea: true)
         attributes.entryBackground = .visualEffect(style: .standard)
+      attributes.position = .bottom
+      attributes.displayDuration = .infinity
         return EntryAttributeWrapper(with: attributes)
     }()
         
@@ -105,8 +109,9 @@ final class PlaygroundViewController: UIViewController {
                 font: MainFont.bold.with(size: 16),
                 color: .black)
         )
+ 
         let description = EKProperty.LabelContent(
-            text: "Are you ready for some testing?",
+            text: "Are you ready for some testing? \(attributesWrapper.attributes.precedence)",
             style: EKProperty.LabelStyle(
                 font: MainFont.light.with(size: 14),
                 color: .black

@@ -98,7 +98,18 @@ final class EKWindowProvider: EntryPresenterDelegate {
             }
             show(entryView: entryView, presentInsideKeyWindow: presentInsideKeyWindow, rollbackWindow: rollbackWindow)
         case .enqueue where isCurrentlyDisplaying():
-            entryQueue.enqueue(entry: .init(view: entryView, presentInsideKeyWindow: presentInsideKeyWindow, rollbackWindow: rollbackWindow))
+#warning("second change")
+          let newP = entryView.attributes.precedence.priority
+          let currentP = self.entryView.attributes.precedence.priority
+          if newP > currentP {// 优先级搞的先显示
+            show(entryView: entryView, presentInsideKeyWindow: presentInsideKeyWindow, rollbackWindow: rollbackWindow)
+            entryQueue.entries.removeAll()
+          }else if newP == currentP {
+            show(entryView: entryView, presentInsideKeyWindow: presentInsideKeyWindow, rollbackWindow: rollbackWindow)
+          }
+//          else {
+//            entryQueue.enqueue(entry: .init(view: entryView, presentInsideKeyWindow: presentInsideKeyWindow, rollbackWindow: rollbackWindow))
+//          }
         case .enqueue:
             show(entryView: entryView, presentInsideKeyWindow: presentInsideKeyWindow, rollbackWindow: rollbackWindow)
         }

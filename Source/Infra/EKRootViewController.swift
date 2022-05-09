@@ -139,10 +139,17 @@ class EKRootViewController: UIViewController {
         let previousAttributes = lastAttributes
         
         // Remove the last entry
+//#warning("third change removeLastEntry")
+//        removeLastEntry(lastAttributes: previousAttributes, keepWindow: true)
+      
+      let lastPriority = previousAttributes?.precedence.priority ?? .low
+      let newPriority = attributes.precedence.priority
+      if newPriority > lastPriority {
         removeLastEntry(lastAttributes: previousAttributes, keepWindow: true)
-        
+      }
+      
         lastAttributes = attributes
-        
+      
         let entryContentView = EKContentView(withEntryDelegate: self)
         view.addSubview(entryContentView)
         entryContentView.setup(with: entryView)
